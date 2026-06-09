@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЦППД НПУ | ОДЕСА</title>
+    <title>ЦППД НПУ - ОДЕСА</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚨</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -237,9 +237,14 @@
                                 <input type="text" id="in-proc-name" class="w-full bg-[#0a0c10] border border-gray-700 rounded p-2 text-white focus:border-orange-500 text-sm panel-input" value="Петров Петро Петрович">
                             </div>
                         </div>
-                        <label class="block text-xs text-gray-400 mb-1 font-medium">Графічний підпис (PNG на прозорому тлі):</label>
+                        <label class="block text-xs text-gray-400 mb-1 font-medium">Графічний підпис слідчого (PNG на прозорому тлі):</label>
                         <input type="file" id="in-signature" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer">
-                        <button onclick="clearSignature()" class="text-xs text-red-400 hover:text-red-300 mt-2 underline block">Видалити підпис з документа</button>
+                        <button onclick="clearSignature()" class="text-xs text-red-400 hover:text-red-300 mt-2 underline block">Видалити підпис слідчого</button>
+                        <div id="wrapper-proc-signature" class="animated-box mt-3">
+                            <label class="block text-xs text-orange-400 mb-1 font-medium">Графічний підпис прокурора (PNG на прозорому тлі):</label>
+                            <input type="file" id="in-signature-proc" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-orange-600 file:text-white hover:file:bg-orange-500 cursor-pointer">
+                            <button onclick="clearSignatureProc()" class="text-xs text-red-400 hover:text-red-300 mt-2 underline block">Видалити підпис прокурора</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -268,7 +273,7 @@
                     <div class="text-center font-bold">
                         <img src="gerb.gif" class="h-16 mx-auto mb-3" alt="Герб НПУ">
                         <div class="text-[14pt] tracking-wider">НАЦІОНАЛЬНА ПОЛІЦІЯ УКРАЇНИ</div>
-                        <div class="text-[14pt] font-normal">Головне управління Національної Поліції України в Одеській Області</div>
+                        <div class="text-[14pt] font-normal">ГУНП України в Одеській області</div>
                     </div>
                 </div>
 
@@ -328,7 +333,8 @@
                         <div class="w-1/2">
                             <div class="font-bold text-[13pt] mb-2">ПОГОДЖЕНО:</div>
                             <div class="text-[12pt]" id="out-proc-role">Прокурор Одеської окружної прокуратури</div>
-                            <div class="mt-8 flex justify-between items-end">
+                            <div class="mt-8 flex justify-between items-end relative">
+                                <img id="out-signature-proc-img" class="h-20 absolute left-0 bottom-[-15px] hidden object-contain z-10 pointer-events-none" alt="Підпис прокурора">
                                 <span class="border-b border-black w-32 inline-block"></span>
                                 <span class="font-bold text-[13pt]" id="out-proc-name">Петров Петро Петрович</span>
                             </div>
@@ -411,7 +417,7 @@
 
             const now = new Date();
             const kyivOptions = { timeZone: 'Europe/Kiev', year: 'numeric', month: 'long', day: 'numeric' };
-            const kyivDate = now.toLocaleDateString('uk-UA', kyivOptions);
+            const kyivDate = now.toLocaleDateString('uk-UA', kyivOptions).replace(' р.', '');
             document.getElementById('in-date').value = kyivDate + ' року';
 
             const year = now.getFullYear();
@@ -464,6 +470,7 @@
                 wrapVstanovyv.classList.remove('show');
                 wrapPostanovyv.classList.remove('show');
                 wrapProcuror.classList.remove('show');
+                document.getElementById('wrapper-proc-signature').classList.remove('show');
                 paperFabula.classList.remove('hidden');
                 paperVstanovyv.classList.add('hidden');
                 paperPostanovyv.classList.add('hidden');
@@ -478,6 +485,7 @@
                 wrapVstanovyv.classList.add('show');
                 wrapPostanovyv.classList.add('show');
                 wrapProcuror.classList.remove('show');
+                document.getElementById('wrapper-proc-signature').classList.remove('show');
                 paperFabula.classList.add('hidden');
                 paperVstanovyv.classList.remove('hidden');
                 paperPostanovyv.classList.remove('hidden');
@@ -494,6 +502,7 @@
                 wrapVstanovyv.classList.add('show');
                 wrapPostanovyv.classList.add('show');
                 wrapProcuror.classList.remove('show');
+                document.getElementById('wrapper-proc-signature').classList.remove('show');
                 paperFabula.classList.add('hidden');
                 paperVstanovyv.classList.remove('hidden');
                 paperPostanovyv.classList.remove('hidden');
@@ -511,6 +520,7 @@
                 wrapVstanovyv.classList.add('show');
                 wrapPostanovyv.classList.add('show');
                 wrapProcuror.classList.add('show');
+                document.getElementById('wrapper-proc-signature').classList.add('show');
                 paperFabula.classList.add('hidden');
                 paperVstanovyv.classList.remove('hidden');
                 paperPostanovyv.classList.remove('hidden');
@@ -528,6 +538,7 @@
                 wrapVstanovyv.classList.remove('show');
                 wrapPostanovyv.classList.remove('show');
                 wrapProcuror.classList.remove('show');
+                document.getElementById('wrapper-proc-signature').classList.remove('show');
                 paperFabula.classList.add('hidden');
                 paperVstanovyv.classList.add('hidden');
                 paperPostanovyv.classList.add('hidden');
@@ -562,7 +573,7 @@
         function executeQRGeneration() {
             const orderId = document.getElementById('in-order').value;
             const erdrId = document.getElementById('in-erdr').value;
-            const encryptedString = `ПОРТАЛ ЦППД НПУ | М. ОДЕСА | НАКАЗ: ${orderId} | ЄРДР: ${erdrId}`;
+            const encryptedString = `ЄРДР:${erdrId}|${orderId}`;
             const qrContainer = document.getElementById("qrcode");
             qrContainer.innerHTML = "";
             new QRCode(qrContainer, {
@@ -591,6 +602,22 @@
             document.getElementById('in-signature').value = "";
             document.getElementById('out-signature-img').classList.add('hidden');
             document.getElementById('out-signature-line').classList.remove('hidden');
+        }
+        document.getElementById('in-signature-proc').addEventListener('change', function(event) {
+            const uploadedFile = event.target.files[0];
+            if (uploadedFile) {
+                const imageReader = new FileReader();
+                imageReader.onload = function(e) {
+                    const outputImage = document.getElementById('out-signature-proc-img');
+                    outputImage.src = e.target.result;
+                    outputImage.classList.remove('hidden');
+                };
+                imageReader.readAsDataURL(uploadedFile);
+            }
+        });
+        function clearSignatureProc() {
+            document.getElementById('in-signature-proc').value = "";
+            document.getElementById('out-signature-proc-img').classList.add('hidden');
         }
 
         const supervisedInputs = [
