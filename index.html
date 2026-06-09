@@ -418,9 +418,7 @@
         function updateDoc() {
             const typeValue = document.getElementById('in-type').value;
             document.getElementById('out-type').innerText = typeValue.split('').join(' ');
-            
             document.getElementById('in-subtitle').readOnly = false;
-
             const wrapFabula = document.getElementById('wrapper-fabula');
             const wrapVstanovyv = document.getElementById('wrapper-vstanovyv');
             const wrapPostanovyv = document.getElementById('wrapper-postanovyv');
@@ -452,9 +450,7 @@
                 document.getElementById('qrcode').style.display = 'flex';
                 labelIntro.innerText = "Вступна частина:";
                 document.getElementById('in-subtitle').value = "до Єдиного реєстру досудових розслідувань";
-                
                 document.getElementById('in-subtitle').readOnly = true;
-
             } else if (typeValue === "ПОСТАНОВА") {
                 wrapFabula.classList.remove('show');
                 wrapVstanovyv.classList.add('show');
@@ -516,7 +512,34 @@
                 wrapProcuror.classList.remove('show');
                 document.getElementById('wrapper-proc-signature').classList.remove('show');
                 paperFabula.classList.add('hidden');
-                paperVstanovyv.classList
+                paperVstanovyv.classList.add('hidden');
+                paperPostanovyv.classList.add('hidden');
+                sigSingle.style.display = 'flex';
+                sigDouble.style.display = 'none';
+                docPreview.classList.remove('watermark-active');
+                document.getElementById('qrcode').style.display = 'none';
+                labelIntro.innerText = "Текст документа (Основне тіло):";
+            }
+            document.getElementById('out-subtitle').innerText = document.getElementById('in-subtitle').value;
+            document.getElementById('out-date').innerText = document.getElementById('in-date').value;
+            document.getElementById('out-intro').innerText = document.getElementById('in-intro').value;
+            document.getElementById('out-vstanovyv').innerText = document.getElementById('in-vstanovyv').value;
+            document.getElementById('out-postanovyv').innerText = document.getElementById('in-postanovyv').value;
+            document.getElementById('out-fabula').innerText = document.getElementById('in-fabula').value;
+            document.getElementById('out-article').innerText = document.getElementById('in-article').value;
+            // Оновлення підписів
+            const positionVal = document.getElementById('in-position').value;
+            const nameVal = document.getElementById('in-name').value;
+            document.getElementById('out-position').innerText = positionVal;
+            document.getElementById('out-name').innerText = nameVal;
+            document.getElementById('out-position-double').innerText = positionVal;
+            document.getElementById('out-name-double').innerText = nameVal;
+            document.getElementById('out-proc-role').innerText = document.getElementById('in-proc-role').value;
+            document.getElementById('out-proc-name').innerText = document.getElementById('in-proc-name').value;
+            document.getElementById('out-order').innerText = "Наказ " + document.getElementById('in-order').value;
+            document.getElementById('out-erdr').innerText = "ЄРДР: " + document.getElementById('in-erdr').value;
+            executeQRGeneration();
+        }
         function executeQRGeneration() {
             const erdrId = document.getElementById('in-erdr').value;
             const qrContainer = document.getElementById("qrcode");
